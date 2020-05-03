@@ -208,7 +208,8 @@ intermediate/csr/]
 
 ### FIRMARE E CREARE IL CERTIFICATO
 ```bash
-cd /root/ca openssl ca -config intermediate/openssl.cnf -extensions server_cert -days 375 -notext -md sha256   -in intermediate/csr/matricola.csr.pem -out intermediate/certs/matricola.cert.pem chmod 444 intermediate/certs/matricola.cert.pem
+cd /root/ca 
+openssl ca -config intermediate/openssl.cnf -extensions server_cert -days 375 -notext -md sha256   -in intermediate/csr/matricola.csr.pem -out intermediate/certs/matricola.cert.pem chmod 444 intermediate/certs/matricola.cert.pem
 ```
 
 ### VERIFICARE IL CONTENUTO DEL CERTIFICATO

@@ -243,15 +243,15 @@ openssl ca -config intermediate/openssl.cnf -revoke intermediate/certs/certifica
 
 # Convertire un certificato .pem in altri formati [UTENTE]
 ```bash
-openssl x509 -outform der -in nomeCertificato.pem -out nomeCertificato.der
+openssl x509 -outform der -in nomeCertificato.cert.pem -out nomeCertificato.der
 ```
 ### Convert PEM to P7B
 ```bash
-openssl crl2pkcs7 -nocrl -certfile nomeCertificato.cer -out nomeCertificato.p7b -certfile CACert.cer
+openssl crl2pkcs7 -nocrl -certfile nomeCertificato.cert.pem -out nomeCertificato.p7b -certfile intermediate.cert.pem
 ```
 ### Convert PEM to PFX
 ```bash
-openssl pkcs12 -export -out nomeCertificato.pfx -inkey privateKey.key -in nomeCertificato.crt -certfile CACert.crt
+openssl pkcs12 -export -out nomeCertificato.pfx -inkey privateKey.key -in nomecertificato.cert.pem -certfile intermediate.cert.pem
 ```
 
 #	TEST

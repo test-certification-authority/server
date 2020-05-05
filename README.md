@@ -270,4 +270,62 @@ e otterrà il suo certificato .cert.pem
 
 Per utilizzarlo per firmare i file dovrà convertirlo in relazione al formato richiesto dal programma di firma
 
+# Firmare i file
 
+## Creare la firma per un determinato file
+Nella stessa cartella della chiave va posizionato il file da firmare, in questo caso demofile.txt
+```bash
+openssl dgst -sha256 -sign rossi.mario.0000001.key.pem -out demofile.txt.sha256 demofile.txt
+```
+Verrà creato un file chiamato demofile.txt.sha256, corrispondente alla firma del file
+
+## Verificare la firma di un file
+
+### Windows
+#### Estrarre la chiave pubblica da un certificato
+La seguente riga di comando funziona anche sui sistemi Unix/Linux/MacOS, ma è un passaggio necessario solo su Windows
+```bash
+openssl x509 -pubkey -noout -in 0000001.cert.pem > 0000001.public.key.pem
+```
+#### Verificare la firma
+```bash
+openssl dgst -sha256 -verify 0000001.public.key.pem -signature demofile.txt.sha256 demofile.txt
+```
+In caso la firma sia verificata questo è l'output previsto
+```bash
+Verified OK
+```
+
+### Unix (Linux/MacOS/Ubuntu/ecc...)
+#### Verificare la firma
+```bash
+openssl dgst -sha256 -verify < (openssl x509 -in 0000001.cert.pem -pubkey -noout) -signature demofile.txt.sha256 demofile.txt
+```
+In caso la firma sia verificata questo è l'output previsto
+```bash
+Verified OK
+```
+## Verificare la validità di un certificato
+Il file ca-chain.cert.pem va scaricato dal sito della Certification Authority e posizionato nella stessa cartella di 0000001.cert.pem
+```bash
+openssl verify -CAfile ca-chain.cert.pem 0000001.cert.pem
+```
+In caso di esito positivo
+```bash
+0000001.cert.pem: OK
+```
+
+# Spostare la chiave privata su dispositivo di archiviazione USB
+
+## Conversione della chiave privata in formato p12
+```bash
+openssl pkcs12 -export -inkey rossi.mario.0000001.key.pem -in 0000001.cert.pem -out 0000001.p12
+```
+Verrà chiesta una password e la conferma di essa; è consigliato scegliere una password sicura. La password non viene mostrata nè salvata da alcuna parte quindi va scritta, preferibilmente su supporto non informatico (foglio di carta).
+Una volta generato il file p12 è possibile copiarlo su USB.
+
+## Estrazione della chiave privata da un file p12
+```bash
+openssl pkcs12 -in 0000001.p12 -out rossi.mario.0000001.estratta.key.pem -nodes
+```
+Verrà chiesta la password con cui è stato generato il file p12

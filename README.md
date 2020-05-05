@@ -206,7 +206,7 @@ matricola.csr.pem <--- il file da caricare sul server per ricevere il certificat
 [l'interfaccia che si occuperà del caricamento del file .csr.pem dovrà posizionare tale file nella directory
 intermediate/csr/]
 
-### FIRMARE E CREARE IL CERTIFICATO
+# FIRMARE E CREARE IL CERTIFICATO [SERVER]
 ```bash
 cd /root/ca 
 openssl ca -config intermediate/openssl.cnf -extensions server_cert -days 375 -notext -md sha256   -in intermediate/csr/matricola.csr.pem -out intermediate/certs/matricola.cert.pem 

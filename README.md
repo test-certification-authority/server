@@ -261,9 +261,9 @@ openssl pkcs12 -export -out nomeCertificato.pfx -inkey privateKey.key -in nomece
 #UTENTE
 cd %UserProfile%\Desktop
 ##creo la chiave privata per l'utente
-openssl genrsa -out rossi.mario.0000001.key 2048
+openssl genrsa -out rossi.mario.0000001.key.pem 2048
 ##creo la certification request da parte dell'utente
-openssl req -new -sha256 -key rossi.mario.0000001.key -subj "/C=IT/ST=Italy/O=UniPD/OU=Studente/CN=rossi.mario.0000001" -out 0000001.csr.pem
+openssl req -new -sha256 -key rossi.mario.0000001.key.pem -subj "/C=IT/ST=Italy/O=UniPD/OU=Studente/CN=rossi.mario.0000001" -out 0000001.csr.pem
 ```
 Lo studente ora caricherà il file .csr.pem nell'interfaccia online per la generazione del certificato
 e otterrà il suo certificato .cert.pem

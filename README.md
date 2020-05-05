@@ -299,7 +299,7 @@ Verified OK
 ### Unix (Linux/MacOS/Ubuntu/ecc...)
 #### Verificare la firma
 ```bash
-openssl dgst -sha256 -verify < (openssl x509 -in 0000001.cert.pem -pubkey -noout) -signature demofile.txt.sha256 demofile.txt
+openssl dgst -sha256 -verify <(openssl x509 -in 0000001.cert.pem -pubkey -noout) -signature demofile.txt.sha256 demofile.txt
 ```
 In caso la firma sia verificata questo è l'output previsto
 ```bash

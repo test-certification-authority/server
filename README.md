@@ -189,6 +189,7 @@ sostituire cognome.nome.matricola in minuscolo con i rispettivi dati senza spazi
 *es2 mario.pasto.000002* = Mario Pastò 000002
 *es3 fra.martin.000003* = Fra' Martino 000003
 
+*Il seguente comando genera una chiave privata di lunghezza 2048, il cui nome del file è cognome.nome.matricola.key.pem*
 ```bash
 openssl genrsa -out cognome.nome.matricola.key.pem 2048
 ```
@@ -196,6 +197,7 @@ openssl genrsa -out cognome.nome.matricola.key.pem 2048
 sostituire *matricola* con la propria matricola
 *es -out 000001.csr.pem*
 
+*Questo comando genera una richiesta di certificazione, che può essere inviata ad una certification authority*
 ```bash
 openssl req -new -sha256 -key cognome.nome.matricola.key.pem -subj "/C=IT/ST=Italy/O=UniPD/OU=Studente/CN=cognome.nome.matricola" -out matricola.csr.pem
 ```
@@ -274,6 +276,7 @@ Per utilizzarlo per firmare i file dovrà convertirlo in relazione al formato ri
 
 ## Creare la firma per un determinato file
 Nella stessa cartella della chiave va posizionato il file da firmare, in questo caso demofile.txt
+*Questo comando genera la firma del file demofile.txt utilizzando la chiave privata rossi.mario.0000001.key.pem*
 ```bash
 openssl dgst -sha256 -sign rossi.mario.0000001.key.pem -out demofile.txt.sha256 demofile.txt
 ```
@@ -284,10 +287,12 @@ Verrà creato un file chiamato demofile.txt.sha256, corrispondente alla firma de
 ### Windows
 #### Estrarre la chiave pubblica da un certificato
 La seguente riga di comando funziona anche sui sistemi Unix/Linux/MacOS, ma è un passaggio necessario solo su Windows
+*Questo comando estrae da 0000001.cert.pem la corrispondente chiave pubblica e la salva come 0000001.public.key.pem*
 ```bash
 openssl x509 -pubkey -noout -in 0000001.cert.pem > 0000001.public.key.pem
 ```
 #### Verificare la firma
+*Questo comando verifica che il file demofile.txt sia stato firmato con la chiave privata associata alla chiave pubblica 0000001.public.key.pem*
 ```bash
 openssl dgst -sha256 -verify 0000001.public.key.pem -signature demofile.txt.sha256 demofile.txt
 ```
@@ -298,6 +303,8 @@ Verified OK
 
 ### Unix (Linux/MacOS/Ubuntu/ecc...)
 #### Verificare la firma
+
+*Questo comando verifica che il file demofile.txt sia stato firmato con la chiave privata associata al certificato 0000001.cert.pem*
 ```bash
 openssl dgst -sha256 -verify <(openssl x509 -in 0000001.cert.pem -pubkey -noout) -signature demofile.txt.sha256 demofile.txt
 ```
@@ -318,6 +325,7 @@ In caso di esito positivo
 # Spostare la chiave privata su dispositivo di archiviazione USB
 
 ## Conversione della chiave privata in formato p12
+*Questo comando esporta in formato p12 la chiave privata rossi.mario.0000001.key.pem, proteggendola con una password*
 ```bash
 openssl pkcs12 -export -inkey rossi.mario.0000001.key.pem -in 0000001.cert.pem -out 0000001.p12
 ```
@@ -325,6 +333,7 @@ Verrà chiesta una password e la conferma di essa; è consigliato scegliere una 
 Una volta generato il file p12 è possibile copiarlo su USB.
 
 ## Estrazione della chiave privata da un file p12
+*Questo comando estrae dal file p12 la chiave privata*
 ```bash
 openssl pkcs12 -in 0000001.p12 -out rossi.mario.0000001.estratta.key.pem -nodes
 ```
